@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1")
 public class ContactHandlerController implements IContactHandlerController {
     private final IDemoRepository demoRepository;
 

@@ -26,7 +26,7 @@ import com.xvalley.openbanking.models.uk.datamodel.vrp.OBCashAccountDebtorWithNa
 import com.xvalley.openbanking.models.uk.datamodel.vrp.OBDomesticVRPInitiationRemittanceInformation;
 import com.xvalley.openbanking.models.uk.datamodel.vrp.OBCashAccountCreditor3;
 import com.xvalley.openbanking.models.uk.datamodel.vrp.OBPostalAddress6;
-
+import com.xvalley.openbanking.models.uk.datamodel.vrp.OBCashAccountDebtorWithName;
 import javax.validation.Valid;
 import java.util.Objects;
 

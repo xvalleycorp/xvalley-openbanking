@@ -16,9 +16,4 @@ public class BianOpenBankingDemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BianOpenBankingDemoApplication.class, args);
 	}
-
-	@Bean
-	public IPersistence persistence(){
-		return new DemoPersistence();
-	}
 }

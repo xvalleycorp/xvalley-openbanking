@@ -15,91 +15,76 @@ import java.util.Map;
 public class ContactHandlerController implements IContactHandlerController {
     private final IDemoRepository demoRepository;
 
-    /*
-        Constructor
-    */
     @Autowired
-    public ContactHandlerController(IPersistence persistence)
-    {
-        super();
+    public ContactHandlerController(IPersistence persistence) {
         this.demoRepository = persistence.GetDemoRepository();
     }
 
-    @Override
-    public ResponseEntity<Object> ContactHandler(@PathVariable(required = false) String contactHandlerId){
-        Map<String, Object> result = new HashMap<>();
-       result.put("contactHandlerId", contactHandlerId);
-       result.put("actionTerm","Default");
-       result.put("status","Success");
-       result.put("code",200);
-       result.put("message","Welcome to xValley OpenBanking!");
-       return new ResponseEntity<Object>(result, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Object> Initiate(){
-        Map<String, Object> result = new HashMap<>();
-        result.put("contactHandlerId", demoRepository.GetRandomNumber());
-        result.put("actionTerm","Initiate");
-        result.put("status","Success");
-        result.put("code",200);
-        result.put("message","Welcome to xValley OpenBanking!");
-        return new ResponseEntity<Object>(result, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Object> Execute(@PathVariable String contactHandlerId){
+    private ResponseEntity<Object> buildResponse(String contactHandlerId, String actionTerm) {
         Map<String, Object> result = new HashMap<>();
         result.put("contactHandlerId", contactHandlerId);
-        result.put("actionTerm","Execute");
-        result.put("status","Success");
-        result.put("code",200);
-        result.put("message","Welcome to xValley OpenBanking!");
-        return new ResponseEntity<Object>(result, HttpStatus.OK);
+        result.put("actionTerm", actionTerm);
+        result.put("status", "Success");
+        result.put("code", HttpStatus.OK.value());
+        result.put("message", "Welcome to xValley OpenBanking!");
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/contact-handler/{contactHandlerId}")
+    public ResponseEntity<Object> contactHandler(@PathVariable(required = false) String contactHandlerId) {
+        return buildResponse(contactHandlerId, "Default");
     }
 
     @Override
-    public ResponseEntity<Object> Update(@PathVariable String contactHandlerId){
-        Map<String, Object> result = new HashMap<>();
-        result.put("contactHandlerId", contactHandlerId);
-        result.put("actionTerm","Update");
-        result.put("status","Success");
-        result.put("code",200);
-        result.put("message","Welcome to xValley OpenBanking!");
-        return new ResponseEntity<Object>(result, HttpStatus.OK);
+    public ResponseEntity<Object> getContactHandler(String contactHandlerId) {
+        return buildResponse(contactHandlerId, "Get");
     }
 
     @Override
-    public ResponseEntity<Object> Request(@PathVariable String contactHandlerId){
-        Map<String, Object> result = new HashMap<>();
-        result.put("contactHandlerId", contactHandlerId);
-        result.put("actionTerm","Request");
-        result.put("status","Success");
-        result.put("code",200);
-        result.put("message","Welcome to xValley OpenBanking!");
-        return new ResponseEntity<Object>(result, HttpStatus.OK);
+    @GetMapping("/contact-handler/initiate")
+    public ResponseEntity<Object> initiate() {
+        return buildResponse(String.valueOf(demoRepository.GetRandomNumber()), "Initiate");
     }
 
     @Override
-    public ResponseEntity<Object> Retrieve(@PathVariable String contactHandlerId){
-        Map<String, Object> result = new HashMap<>();
-        result.put("contactHandlerId", contactHandlerId);
-        result.put("actionTerm","Retrieve");
-        result.put("status","Success");
-        result.put("code",200);
-        result.put("message","Welcome to xValley OpenBanking!");
-        return new ResponseEntity<Object>(result, HttpStatus.OK);
+    @GetMapping("/contact-handler/{contactHandlerId}/execute")
+    public ResponseEntity<Object> execute(@PathVariable String contactHandlerId) {
+        return buildResponse(contactHandlerId, "Execute");
     }
 
     @Override
-    public ResponseEntity<Object> Authentication(@PathVariable String contactHandlerId, @PathVariable String authenticationId){
+    @PutMapping("/contact-handler/{contactHandlerId}/update")
+    public ResponseEntity<Object> update(@PathVariable String contactHandlerId) {
+        return buildResponse(contactHandlerId, "Update");
+    }
+
+    @Override
+    @PostMapping("/contact-handler/{contactHandlerId}/request")
+    public ResponseEntity<Object> request(@PathVariable String contactHandlerId) {
+        return buildResponse(contactHandlerId, "Request");
+    }
+
+    @Override
+    @GetMapping("/contact-handler/{contactHandlerId}/retrieve")
+    public ResponseEntity<Object> retrieve(@PathVariable String contactHandlerId) {
+        return buildResponse(contactHandlerId, "Retrieve");
+    }
+
+    @Override
+    public ResponseEntity<Object> retrieveAuthentication(String contactHandlerId, String authenticationId) {
         Map<String, Object> result = new HashMap<>();
         result.put("contactHandlerId", contactHandlerId);
         result.put("authenticationId", authenticationId);
-        result.put("actionTerm","Authentication/Retrieve");
-        result.put("status","Success");
-        result.put("code",200);
-        result.put("message","Welcome to xValley OpenBanking!");
-        return new ResponseEntity<Object>(result, HttpStatus.OK);
+        result.put("actionTerm", "Authentication/Retrieve");
+        result.put("status", "Success");
+        result.put("code", HttpStatus.OK.value());
+        result.put("message", "Welcome to xValley OpenBanking!");
+        return ResponseEntity.ok(result);
+    }
+
+    @Override
+    @GetMapping("/contact-handler/{contactHandlerId}/authentication/{authenticationId}")
+    public ResponseEntity<Object> authentication(@PathVariable String contactHandlerId, @PathVariable String authenticationId) {
+        return retrieveAuthentication(contactHandlerId, authenticationId);
     }
 }
